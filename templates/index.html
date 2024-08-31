@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web RegEx Kelompok A NLP A1</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Web RegEx Anjai</h1>
+            <p>Uji kata Anda berdasarkan pola RegEx yang tersedia di bawah ini dan lihat hasilnya secara langsung.</p>
+        </header>
+        <main>
+            <form method="POST">
+                <label for="pattern_option">Pilih pola RegEx yang telah disediakan:</label><br>
+                <select id="pattern_option" name="pattern_option" onchange="this.form.submit()">
+                    <option value="" {% if pattern_option == "" %}selected{% endif %}>Pilih pola...</option>
+                    <option value="Seluruh alamat email valid" {% if pattern_option == "Seluruh alamat email valid" %}selected{% endif %}>Seluruh alamat email valid</option>
+                    <option value="Seluruh alamat email valid dengan domain akhir .unair.ac.id" {% if pattern_option == "Seluruh alamat email valid dengan domain akhir .unair.ac.id" %}selected{% endif %}>Seluruh alamat email valid dengan domain akhir .unair.ac.id</option>
+                    <option value="Seluruh nomor KTP dengan tahun lahir 1999" {% if pattern_option == "Seluruh nomor KTP dengan tahun lahir 1999" %}selected{% endif %}>Seluruh nomor KTP dengan tahun lahir 1999</option>
+                    <option value="Seluruh kata dengan awalan huruf kapital" {% if pattern_option == "Seluruh kata dengan awalan huruf kapital" %}selected{% endif %}>Seluruh kata dengan awalan huruf kapital</option>
+                    <option value="Validasi string yang hanya memuat alphanumeric dan underscore" {% if pattern_option == "Validasi string yang hanya memuat alphanumeric dan underscore" %}selected{% endif %}>Validasi string yang hanya memuat alphanumeric dan underscore</option>
+                    <option value="Mencari file dengan ekstensi dokumen (pdf, docx, doc, txt)" {% if pattern_option == "Mencari file dengan ekstensi dokumen (pdf, docx, doc, txt)" %}selected{% endif %}>Mencari file dengan ekstensi dokumen (pdf, docx, doc, txt)</option>
+                    <option value="Strong password filter" {% if pattern_option == "Strong password filter" %}selected{% endif %}>Strong password filter</option>
+                    <option value="Mencari NIM mahasiswa sesuai jurusan" {% if pattern_option == "Mencari NIM mahasiswa sesuai jurusan" %}selected{% endif %}>Mencari NIM mahasiswa sesuai jurusan</option>
+                </select><br><br>
+
+                <label for="pattern">Atau masukkan pola RegEx Anda sendiri:</label><br>
+                <input type="text" id="pattern" name="pattern" value="{{ pattern }}" placeholder="Masukkan regex Anda"><br><br>
+
+                <label for="text">Masukkan teks yang ingin diuji:</label><br>
+                <textarea id="text" name="text" rows="10" cols="50" placeholder="Masukkan teks Anda di sini...">{{ text }}</textarea><br><br>
+                
+                <button type="submit">Tes Regex</button>
+
+                {% if error_message %}
+                <p class="error">{{ error_message }}</p>
+                {% endif %}
+            </form>
+            
+            <h2>Preview:</h2>
+            <div id="text" class="text-preview">
+                {{ highlighted_text|safe }}
+            </div>
+        </main>
+        <aside>
+            <h2>Tips dan Dokumentasi</h2>
+            <p>Contoh pola regex:</p>
+            <ul>
+                <li><code>[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}</code> - Menemukan seluruh alamat email valid</li>
+                <li><code>[a-zA-Z0-9._%+-]+@unair\.ac\.id</code> - Menemukan seluruh alamat email valid dengan domain akhir .unair.ac.id</li>
+                <li><code>^\d{10}99\d{4}$</code> - Menemukan seluruh nomor KTP dengan tahun lahir 1999</li>
+                <li><code>\b[A-Z][a-z]*\b</code> - Menemukan seluruh kata dengan awalan huruf kapital</li>
+                <li><code>^\w+$</code> - Validasi string yang hanya memuat alphanumeric dan underscore</li>
+                <li><code>\b\w+\.(pdf|docx|doc|txt)\b</code> - Mencari file dengan ekstensi dokumen (pdf, docx, doc, txt)</li>
+                <li><code>^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$</code> - Strong password filter</li>
+                <li><code>\b(166|165|164|162|163)\d{6}\b</code> - Mencari NIM mahasiswa sesuai jurusan</li>
+            </ul>
+        </aside>
+        <footer>
+            <hr>
+            <p><strong>Catatan:</strong> Aplikasi ini menggunakan modul <code>re</code> dari Python untuk memproses pola RegEx.</p>
+        </footer>
+    </div>
+</body>
+</html>
